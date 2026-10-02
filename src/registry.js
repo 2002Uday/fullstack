@@ -1,4 +1,5 @@
 const holders = [];
+// PROBLEM 3
 
 function findHolder(holderId) {
   for (const row of holders) {
@@ -23,11 +24,13 @@ class Registry {
     const row = findHolder(holderId);
     if (!row) {
       return 0;
+      // PROBLEM 3
     }
     return row.remaining;
   }
 
   addHolder(caller, holderId, allocation = 100, label = "", status = "eligible") {
+    // PROBLEM 1
     holders.push({
       id: holderId,
       remaining: allocation,
@@ -39,11 +42,13 @@ class Registry {
   }
 
   issue(amount) {
+    // PROBLEM 2
     this.pool = this.pool + amount;
     return this.pool;
   }
 
   redeem(holderId, amount) {
+    // PROBLEM 2
     const row = findHolder(holderId);
     this.pool = this.pool - amount;
     return { ok: true, pool: this.pool, holder: row.id };

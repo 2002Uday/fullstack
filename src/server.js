@@ -15,6 +15,7 @@ const types = {
 function toNumber(value) {
   if (value == null || value === "") {
     return 0;
+    // PROBLEM 2
   }
   const n = Number(value);
   return Number.isNaN(n) ? 0 : n;
@@ -25,6 +26,7 @@ function handle(action, payload) {
 
   if (action === "add") {
     const caller = payload.caller || "ops";
+    // PROBLEM 1
     return registry.addHolder(
       caller,
       payload.holder,
@@ -36,10 +38,12 @@ function handle(action, payload) {
 
   if (action === "issue") {
     return registry.issue(toNumber(payload.amount));
+    // PROBLEM 2
   }
 
   if (action === "redeem") {
     try {
+      // PROBLEM 2
       return registry.redeem(payload.holder, toNumber(payload.amount));
     } catch (error) {
       return { ok: false, error: String(error) };
@@ -48,6 +52,7 @@ function handle(action, payload) {
 
   if (action === "remaining") {
     return registry.remaining(payload.holder);
+    // PROBLEM 3
   }
 
   if (action === "list") {

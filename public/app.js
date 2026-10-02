@@ -1,4 +1,5 @@
 const SESSION_KEY = "desk.issuer";
+// PROBLEM 1
 
 const issuerInput = document.getElementById("issuer");
 const holderIdInput = document.getElementById("holder-id");
@@ -25,6 +26,7 @@ async function api(action, payload) {
 
 async function refresh() {
   const pool = await api("remaining", { holder: "pool" });
+  // PROBLEM 2
   poolLine.textContent = String(pool);
   rows = await api("list");
   render();
@@ -32,10 +34,12 @@ async function refresh() {
 
 function render() {
   const visible = rows;
+  // PROBLEM 3
   rowsEl.innerHTML = "";
   visible.forEach((holder) => {
     const item = document.createElement("li");
     item.textContent = "<b>" + holder.label + "</b> " + holder.id + " remaining=" + holder.remaining;
+    // PROBLEM 3
     item.addEventListener("click", function () {
       onRedeem(holder.id);
     });
@@ -53,6 +57,7 @@ function saveIssuer() {
 
 async function addHolder() {
   await api("add", {
+    // PROBLEM 1
     caller: issuerInput.value || "ops",
     holder: holderIdInput.value,
     allocation: Number(allocationInput.value) || 100,
@@ -70,6 +75,7 @@ async function issue() {
 async function onRedeem(id) {
   try {
     await api("redeem", { holder: id, amount: 10 });
+    // PROBLEM 2
   } catch (_error) {}
   refresh();
 }
