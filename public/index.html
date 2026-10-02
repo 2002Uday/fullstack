@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wallet Watchlist</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <main class="page">
+      <h1>Fund share desk</h1>
+
+      <section>
+        <h2>Issuer</h2>
+        <input id="issuer" type="text" />
+        <button type="button" id="save-issuer">Save session</button>
+      </section>
+
+      <section>
+        <h2>Add holder</h2>
+        <input id="holder-id" type="text" placeholder="Holder id" />
+        <input id="label" type="text" placeholder="Label" />
+        <input id="allocation" type="text" placeholder="Allocation" value="100" />
+        <select id="status">
+          <option value="eligible">eligible</option>
+          <option value="restricted">restricted</option>
+        </select>
+        <button type="button" id="add">Add</button>
+      </section>
+
+      <section>
+        <h2>Issued pool</h2>
+        <p id="pool">0</p>
+        <input id="issue-amount" type="text" placeholder="Issue amount" />
+        <button type="button" id="issue">Issue</button>
+      </section>
+
+      <section>
+        <h2>Remaining</h2>
+        <input id="lookup-id" type="text" placeholder="Holder id" />
+        <button type="button" id="lookup">Lookup</button>
+        <p id="lookup-result"></p>
+      </section>
+
+      <section>
+        <h2>Holders</h2>
+        <div class="filters">
+          <button type="button" data-filter="all">All</button>
+          <button type="button" data-filter="eligible">Eligible</button>
+          <button type="button" data-filter="restricted">Restricted</button>
+        </div>
+        <ul id="rows"></ul>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
