@@ -47,15 +47,33 @@ class Registry {
 
   issue(amount) {
     // PROBLEM 2
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return { ok: false, error: "amount must be greater than 0" };
+    }
     this.pool = this.pool + amount;
     return this.pool;
   }
 
   redeem(holderId, amount) {
     // PROBLEM 2
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return { ok: false, error: "amount must be greater than 0" };
+    }
+
     const row = findHolder(holderId);
+    if (!row) {
+      return { ok: false, error: "holder not found" };
+    }
+    if (amount > row.remaining) {
+      return { ok: false, error: "amount exceeds remaining allocation" };
+    }
+    if (amount > this.pool) {
+      return { ok: false, error: "amount exceeds issued pool" };
+    }
+
     this.pool = this.pool - amount;
-    return { ok: true, pool: this.pool, holder: row.id };
+    row.remaining = row.remaining - amount;
+    return { ok: true, pool: this.pool, holder: row.id, remaining: row.remaining };
   }
 }
 

@@ -8,6 +8,8 @@ const allocationInput = document.getElementById("allocation");
 const statusInput = document.getElementById("status");
 const poolLine = document.getElementById("pool");
 const issueAmountInput = document.getElementById("issue-amount");
+const redeemAmountInput = document.getElementById("redeem-amount");
+const actionResult = document.getElementById("action-result");
 const lookupIdInput = document.getElementById("lookup-id");
 const lookupResult = document.getElementById("lookup-result");
 const rowsEl = document.getElementById("rows");
@@ -25,7 +27,7 @@ async function api(action, payload) {
 }
 
 async function refresh() {
-  const pool = await api("remaining", { holder: "pool" });
+  const pool = await api("pool");
   // PROBLEM 2
   poolLine.textContent = String(pool);
   rows = await api("list");
@@ -64,16 +66,24 @@ async function addHolder() {
 }
 
 async function issue() {
-  await api("issue", { amount: Number(issueAmountInput.value) || 0 });
-  refresh();
+  const result = await api("issue", { amount: Number(issueAmountInput.value) });
+  if (result && result.ok === false) {
+    actionResult.textContent = result.error;
+    return;
+  }
+  await refresh();
+  actionResult.textContent = "Issued successfully.";
 }
 
 async function onRedeem(id) {
-  try {
-    await api("redeem", { holder: id, amount: 10 });
-    // PROBLEM 2
-  } catch (_error) {}
-  refresh();
+  const result = await api("redeem", { holder: id, amount: Number(redeemAmountInput.value) });
+  // PROBLEM 2
+  if (!result.ok) {
+    actionResult.textContent = result.error;
+    return;
+  }
+  await refresh();
+  actionResult.textContent = "Redeemed " + result.holder + "; remaining=" + result.remaining;
 }
 
 async function lookup() {

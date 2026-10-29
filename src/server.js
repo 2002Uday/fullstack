@@ -37,17 +37,25 @@ function handle(action, payload) {
   }
 
   if (action === "issue") {
-    return registry.issue(toNumber(payload.amount));
     // PROBLEM 2
+    const amount = toNumber(payload.amount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return { ok: false, error: "amount must be greater than 0" };
+    }
+    return registry.issue(amount);
   }
 
   if (action === "redeem") {
-    try {
-      // PROBLEM 2
-      return registry.redeem(payload.holder, toNumber(payload.amount));
-    } catch (error) {
-      return { ok: false, error: String(error) };
+    // PROBLEM 2
+    const amount = toNumber(payload.amount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return { ok: false, error: "amount must be greater than 0" };
     }
+    return registry.redeem(payload.holder, amount);
+  }
+
+  if (action === "pool") {
+    return registry.pool;
   }
 
   if (action === "remaining") {
