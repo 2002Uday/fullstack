@@ -25,7 +25,7 @@ function handle(action, payload) {
   payload = payload || {};
 
   if (action === "add") {
-    const caller = payload.caller || "ops";
+    const caller = payload.caller;
     // PROBLEM 1
     return registry.addHolder(
       caller,

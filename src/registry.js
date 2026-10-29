@@ -31,6 +31,10 @@ class Registry {
 
   addHolder(caller, holderId, allocation = 100, label = "", status = "eligible") {
     // PROBLEM 1
+    if (caller !== this.issuer || holderId == null || String(holderId).trim() === "") {
+      return false;
+    }
+
     holders.push({
       id: holderId,
       remaining: allocation,

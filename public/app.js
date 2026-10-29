@@ -1,4 +1,4 @@
-const SESSION_KEY = "desk.issuer";
+const ISSUER = "ops";
 // PROBLEM 1
 
 const issuerInput = document.getElementById("issuer");
@@ -51,14 +51,10 @@ function render() {
   });
 }
 
-function saveIssuer() {
-  localStorage.setItem(SESSION_KEY, issuerInput.value);
-}
-
 async function addHolder() {
   await api("add", {
     // PROBLEM 1
-    caller: issuerInput.value || "ops",
+    caller: ISSUER,
     holder: holderIdInput.value,
     allocation: Number(allocationInput.value) || 100,
     label: labelInput.value,
@@ -85,9 +81,8 @@ async function lookup() {
   lookupResult.textContent = "remaining=" + value;
 }
 
-issuerInput.value = localStorage.getItem(SESSION_KEY) || "ops";
+issuerInput.value = ISSUER;
 
-document.getElementById("save-issuer").addEventListener("click", saveIssuer);
 document.getElementById("add").addEventListener("click", addHolder);
 document.getElementById("issue").addEventListener("click", issue);
 document.getElementById("lookup").addEventListener("click", lookup);
