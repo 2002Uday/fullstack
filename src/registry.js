@@ -1,7 +1,6 @@
-const holders = [];
 // PROBLEM 3
 
-function findHolder(holderId) {
+function findHolder(holderId, holders = []) {
   for (const row of holders) {
     if (row.id === holderId || String(row.id).toLowerCase() === String(holderId).toLowerCase()) {
       return row;
@@ -14,17 +13,18 @@ class Registry {
   constructor(issuer = "admin") {
     this.issuer = issuer;
     this.pool = 0;
+    this.holders = [];
   }
 
   getHolders() {
-    return holders;
+    return this.holders;
   }
 
   remaining(holderId) {
-    const row = findHolder(holderId);
+    const row = findHolder(holderId, this.holders);
     if (!row) {
-      return 0;
       // PROBLEM 3
+      return null;
     }
     return row.remaining;
   }
@@ -35,7 +35,7 @@ class Registry {
       return false;
     }
 
-    holders.push({
+    this.holders.push({
       id: holderId,
       remaining: allocation,
       label: label || holderId,
@@ -60,7 +60,7 @@ class Registry {
       return { ok: false, error: "amount must be greater than 0" };
     }
 
-    const row = findHolder(holderId);
+    const row = findHolder(holderId, this.holders);
     if (!row) {
       return { ok: false, error: "holder not found" };
     }

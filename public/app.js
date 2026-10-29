@@ -35,12 +35,15 @@ async function refresh() {
 }
 
 function render() {
-  const visible = rows;
+  const visible = statusFilter === "all" ? rows : rows.filter((holder) => holder.status === statusFilter);
   // PROBLEM 3
   rowsEl.innerHTML = "";
   visible.forEach((holder) => {
     const item = document.createElement("li");
-    item.textContent = "<b>" + holder.label + "</b> " + holder.id + " remaining=" + holder.remaining;
+    const label = document.createElement("b");
+    label.textContent = holder.label;
+    item.appendChild(label);
+    item.appendChild(document.createTextNode(" " + holder.id + " remaining=" + holder.remaining));
     // PROBLEM 3
     item.addEventListener("click", function () {
       onRedeem(holder.id);
@@ -88,7 +91,7 @@ async function onRedeem(id) {
 
 async function lookup() {
   const value = await api("remaining", { holder: lookupIdInput.value });
-  lookupResult.textContent = "remaining=" + value;
+  lookupResult.textContent = value == null ? "holder not found" : "remaining=" + value;
 }
 
 issuerInput.value = ISSUER;
